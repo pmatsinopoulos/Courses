@@ -14,6 +14,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,6 +32,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.mixlr.panos.courses.data.TopicsDataSource
+import com.mixlr.panos.courses.model.Topic
 import com.mixlr.panos.courses.ui.theme.CoursesTheme
 
 class MainActivity : ComponentActivity() {
@@ -53,6 +57,20 @@ class MainActivity : ComponentActivity() {
 fun Courses(
     modifier: Modifier = Modifier
 ) {
+    LazyColumn(
+
+    ) {
+        items(TopicsDataSource.topics) { topic ->
+            Topic(topic)
+        }
+    }
+}
+
+@Composable
+fun Topic(
+    topic: Topic,
+    modifier: Modifier = Modifier
+) {
     Row(
         modifier = Modifier
             .wrapContentHeight(align = Alignment.Top)
@@ -66,8 +84,8 @@ fun Courses(
                 .background(colorResource(id = R.color.light_gray))
         ) {
             Image(
-                painter = painterResource(id = R.drawable.architecture),
-                contentDescription = stringResource(R.string.architecture),
+                painter = painterResource(id = topic.image),
+                contentDescription = stringResource(topic.name),
                 modifier = Modifier
                     .height(68.dp)
                     .width(68.dp)
@@ -83,7 +101,7 @@ fun Courses(
                         .padding(top = 16.dp, end = 16.dp, bottom = 8.dp, start = 16.dp)
                 ) {
                     Text(
-                        text = "Architecture",
+                        text = stringResource(topic.name),
                         fontSize = 36.sp
                     )
                 }
@@ -100,7 +118,7 @@ fun Courses(
                             .size(30.dp)
                     )
                     Text(
-                        text = "321",
+                        text = topic.numberOfAssociatedCourses.toString(),
                         modifier = Modifier
                             .padding(start = 8.dp),
                         fontSize = 20.sp
@@ -109,7 +127,6 @@ fun Courses(
             }
         }
     }
-
 }
 
 @Preview(
