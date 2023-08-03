@@ -14,8 +14,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -57,8 +58,11 @@ class MainActivity : ComponentActivity() {
 fun Courses(
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
-
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(count = 2),
+        modifier = Modifier
+            .background(colorResource(id = R.color.light_gray))
+            .fillMaxSize()
     ) {
         items(TopicsDataSource.topics) { topic ->
             Topic(topic)
@@ -75,11 +79,11 @@ fun Topic(
         modifier = Modifier
             .wrapContentHeight(align = Alignment.Top)
             .background(Color.LightGray)
+            .padding(8.dp)
     ) {
         Row(
             modifier = Modifier
                 .wrapContentHeight(align = Alignment.CenterVertically)
-                .padding(10.dp)
                 .clip(shape = RoundedCornerShape(20.dp))
                 .background(colorResource(id = R.color.light_gray))
         ) {
@@ -102,12 +106,13 @@ fun Topic(
                 ) {
                     Text(
                         text = stringResource(topic.name),
-                        fontSize = 36.sp
+                        fontSize = 12.sp
                     )
                 }
                 Row(
                     modifier = Modifier
-                        .padding(start = 16.dp)
+                        .padding(start = 16.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
                         painter = painterResource(
@@ -121,7 +126,7 @@ fun Topic(
                         text = topic.numberOfAssociatedCourses.toString(),
                         modifier = Modifier
                             .padding(start = 8.dp),
-                        fontSize = 20.sp
+                        fontSize = 12.sp
                     )
                 }
             }
